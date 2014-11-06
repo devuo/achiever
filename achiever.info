@@ -1,0 +1,8 @@
+name = Achiever
+core = 7.x
+dependencies[] = observer
+
+files[] = includes/abstract_achievement.inc
+files[] = includes/abstract_achievement_group.inc
+files[] = includes/activity.inc
+files[] = includes/activity_observer.inc
