@@ -2,7 +2,7 @@
 
 /**
  * @file
- * CTools content-type plugin file.
+ * Contains the Achievements list CTools content-type plugin.
  */
 
 $plugin = array(
@@ -19,20 +19,12 @@ $plugin = array(
  */
 function achiever_achievements_content_type_render($subtype, $conf, $panel_args, $context) {
   if (empty($context) || empty($context->data)) {
-    return;
+    return null;
   }
 
-  $user = $context->data;
+  $account = $context->data;
   $achievements = achiever_get_achievements();
-
-  $content = '';
-
-  foreach ($achievements as $achievement) {
-    $title = $achievement->getTitle();
-    $description = $achievement->getDescription();
-
-    $content .= "<article><h1>{$title}</h1><p>{$description}</p></article>";
-  }
+  $content = theme('achiever_achievements', array('achievements' => $achievements, 'account' => $account));
 
   // Build the content type block.
   $block = new stdClass();

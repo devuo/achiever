@@ -47,6 +47,34 @@ function achiever_ctools_plugin_directory($module, $plugin) {
   return null;
 }
 
+/**
+ * Implements hook_theme().
+ */
+function achiever_theme($existing, $type, $theme, $path) {
+  $base = array(
+    'file' => 'theme.inc',
+    'path' => $path . '/theme',
+  );
+
+  return array(
+    'achiever_achievements' => array(
+      'variables' => array('achievements' => array(), 'account' => null),
+      'template' => 'achiever-achievements',
+    ) + $base,
+    'achiever_achievement' => array(
+      'variables' => array('achievement' => null, 'account' => null),
+      'template' => 'achiever-achievement',
+    ) + $base,
+    'achiever_achievement_group' => array(
+      'variables' => array('achievement' => null, 'account' => null),
+      'template' => 'achiever-achievement-group',
+    ) + $base,
+    'achiever_notifier' => array(
+      'variables' => array('achievements' => array(), 'account' => null),
+      'template' => 'achiever-notifier',
+    ) + $base
+  );
+}
 // Helpers
 // -----------------------------------------------------------------------------
 
@@ -281,4 +309,16 @@ function achiever_get_user_achievements($account = null) {
   }
 
   return $accounts[$account->uid];
+}
+
+/**
+ * Transforms a string into a "proper" CSS class.
+ *
+ * @param $string
+ *  The string to be transformed
+ * @return string
+ *  The string ready to be used as a CSS class.
+ */
+function achiever_css_identifier($string) {
+  return strtolower(preg_replace('/([A-Z])/', '-$1', lcfirst($string)));
 }
