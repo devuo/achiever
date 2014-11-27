@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * @file
+ * Contains the AchieverAchievement abstract class.
+ */
+
+/**
+ * Class AchieverAchievement
+ *
+ * The base abstract class at the root of all Achievements. Handles the base
+ * logic of checking and unlocking and achievement, and declares the
+ * Achievement object interface.
+ */
 abstract class AchieverAchievement implements ObserverObserverInterface {
 
   /**
@@ -117,7 +129,7 @@ abstract class AchieverAchievement implements ObserverObserverInterface {
   /**
    * Checks whether the achievement is achieved.
    *
-   * This method is used internally by the achievement to unlock the achievement
+   * This method is used internally by achiever to unlock the achievement
    * for the given account.
    *
    * @param AchieverActivity $activity

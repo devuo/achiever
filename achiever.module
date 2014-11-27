@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Main file for the achiever module.
+ */
+
+/**
  * Observer activity event.
  *
  * Whenever an achiever activity is stored to the database, achiever notifies

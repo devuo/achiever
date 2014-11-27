@@ -1,7 +1,22 @@
 <?php
 
+/**
+ * @file
+ * Contains the AchieverActivityObserver class.
+ */
+
+/**
+ * Class AchieverActivityObserver
+ *
+ * Responsible for registering all events that occur on the Observer event
+ * system as user activities. This class acts as the the back-bone of the
+ * Achievements system by recording data needed by it.
+ */
 class AchieverActivityObserver implements ObserverObserverInterface {
 
+  /**
+   * {@inheritdoc}
+   */
   public function onNotify(ObserverEventInterface $event) {
 
     // Bailout on achiever activity events.

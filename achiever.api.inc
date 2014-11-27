@@ -8,6 +8,8 @@
 /**
  * Alters an activity before it is stored in the database.
  *
+ * Developers can use this to modify an activity value.
+ *
  * @param $keys
  *  The keys that will be used to build the activity namespace.
  * @param $type
@@ -40,14 +42,14 @@ function hook_achiever_activity_alter(&$keys, &$type, &$variant, &$value, $data,
 }
 
 /**
- * Registers achievements.
+ * Registers Achievements.
  *
  * @return AchieverAchievement[]
- *  An array of object instances implement the ObserverObserverInterface.
+ *  An array of object instances that extend the AchieverAchievement class.
  */
 function hook_achiever_achievements_info() {
   return array(
-    new MostCommentsAchievement(),
+    new UserOfTheYearAchievement(),
     new TopBloggerAchievement()
   );
 }

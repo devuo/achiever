@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Handles scheme, install and uninstall of achiever module.
+ */
+
+/**
  * Implements hook_schema().
  */
 function achiever_schema() {

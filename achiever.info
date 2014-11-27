@@ -1,4 +1,5 @@
 name = Achiever
+description = Drupal achievements and user points framework.
 core = 7.x
 dependencies[] = observer
 

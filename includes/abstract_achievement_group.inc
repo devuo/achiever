@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * @file
+ * Contains the AchieverAchievementGroup class.
+ */
+
+/**
+ * Class AchieverAchievementGroup
+ *
+ * This is the base class for Achievements which are composed by a collection
+ * of Sub-Achievements. It contains the logic for unlocking the achievement,
+ * and also declares the interface for Achievement Groups.
+ */
 abstract class AchieverAchievementGroup extends AchieverAchievement {
 
   /**
