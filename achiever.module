@@ -197,6 +197,57 @@ function achiever_get_activity_count($account = null, $namespace = '', $types = 
   return $select->execute()->fetchField();
 }
 
+
+/**
+ * Gets the sum of all values of the activities filtered by the given parameters.
+ *
+ * @param null|object $account
+ *  The user object from which the activity belongs to.
+ * @param $namespace
+ *  The namespace to get the activity from.
+ * @param array $types
+ *  A list of types.
+ * @param array $variants
+ *  A list of variants.
+ * @param null|int $from
+ *  The timestamp from which the count is to be made from.
+ * @param null|int $to
+ *  The timestamp to which the count is to be made to.
+ * @return int
+ *  The sum of all activities value.
+ */
+function achiever_get_activity_value($account = null, $namespace = '', $types = array(), $variants = array(), $from = null, $to = null) {
+  $select = db_select('achiever_activity', 'aa');
+
+  if (!empty($account)) {
+    $select->where('aa.uid = :uid', array(':uid' => $account->uid));
+  }
+
+  if (!empty($namespace)) {
+    $select->where('aa.namespace LIKE :namespace', array(':namespace' => $namespace));
+  }
+
+  if (!empty($types)) {
+    $select->where('aa.type IN (:types)', array(':types' => $types));
+  }
+
+  if (!empty($variants)) {
+    $select->where('aa.variant IN (:variants)', array(':variants' => $variants));
+  }
+
+  if (!empty($from)) {
+    $select->where('aa.date >= :from', array(':from' => $from));
+  }
+
+  if (!empty($to)) {
+    $select->where('aa.date <= :to', array(':to' => $to));
+  }
+
+  $select->addExpression('SUM(aa.value)', 'value');
+
+  return $select->execute()->fetchField();
+}
+
 /**
  * Gets a user's achievements.
  *
