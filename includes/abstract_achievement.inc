@@ -65,6 +65,9 @@ abstract class AchieverAchievement implements ObserverObserverInterface {
 
     // Clear in-memory achievement cache.
     drupal_static_reset(ACHIEVER_CACHE_ACHIEVEMENTS);
+
+    // Notify the user of the achievement unlock.
+    achiever_achievement_notify($account, $this);
   }
 
   /**

@@ -27,6 +27,11 @@ define('ACHIEVER_OBSERVER_ACHIEVEMENT', 'achiever:achievement');
 define('ACHIEVER_CACHE_ACHIEVEMENTS', 'achiever_cache_achievements');
 
 /**
+ * In-session achievements notifications key.
+ */
+define('ACHIEVER_SESSION_UNLOCKED_ACHIEVEMENTS', 'achiever_session_unlocked_achievements');
+
+/**
  * Implements hook_observer_info().
  */
 function achiever_observer_info() {
@@ -75,6 +80,25 @@ function achiever_theme($existing, $type, $theme, $path) {
     ) + $base
   );
 }
+
+/**
+ * Implements hook_preprocess_HOOK() for html theme.
+ */
+function achiever_preprocess_html(&$vars) {
+  global $user;
+
+  // Check if there are achievements to notify the user about.
+  $achievements = achiever_get_achievement_notifications(TRUE);
+
+  if (!empty($achievements)) {
+    drupal_page_is_cacheable(FALSE);
+
+    $vars['page']['page_bottom']['achiever'] = array(
+      '#markup' => theme('achiever_notifier', array('achievements' => $achievements, 'account' => $user))
+    );
+  }
+}
+
 // Helpers
 // -----------------------------------------------------------------------------
 
@@ -309,6 +333,54 @@ function achiever_get_user_achievements($account = null) {
   }
 
   return $accounts[$account->uid];
+}
+
+/**
+ * Handles the notification to the user of an achievement unlock.
+ *
+ * @param $account
+ *  The user account to be notified.
+ * @param AchieverAchievement $achievement
+ *  The achievement that has been unlocked.
+ *
+ * @see achiever_get_achievement_notifications().
+ */
+function achiever_achievement_notify($account, AchieverAchievement $achievement) {
+  global $user;
+
+  // Bailout if the achievement was not unlocked by the current user.
+  if ($user->uid != $account->uid) return;
+
+  // Store the notification in the session for later notification.
+  if (empty($_SESSION[ACHIEVER_SESSION_UNLOCKED_ACHIEVEMENTS])) {
+    $_SESSION[ACHIEVER_SESSION_UNLOCKED_ACHIEVEMENTS] = array();
+  }
+
+  $_SESSION[ACHIEVER_SESSION_UNLOCKED_ACHIEVEMENTS][] = $achievement;
+}
+
+/**
+ * Gets pending user achievement notifications.
+ *
+ * @param bool $purge
+ *  TRUE to purge the achievement notifications after returning the results.
+ * @return AchieverAchievement[]
+ *  The pending user achievements.
+ *
+ * @see achiever_achievement_notify().
+ */
+function achiever_get_achievement_notifications($purge = FALSE) {
+  $achievements = array();
+
+  if (!empty($_SESSION[ACHIEVER_SESSION_UNLOCKED_ACHIEVEMENTS])) {
+    $achievements = $_SESSION[ACHIEVER_SESSION_UNLOCKED_ACHIEVEMENTS];
+  }
+
+  if ($purge) {
+    unset($_SESSION[ACHIEVER_SESSION_UNLOCKED_ACHIEVEMENTS]);
+  }
+
+  return $achievements;
 }
 
 /**
