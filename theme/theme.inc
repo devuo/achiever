@@ -9,6 +9,8 @@
  * Implements template_preprocess_THEME() for achiever_achievements theme.
  */
 function template_preprocess_achiever_achievements(&$vars) {
+  global $user;
+
   $account = $vars['account'];
 
   /** @var AchieverAchievement[] $achievements */
@@ -42,6 +44,7 @@ function template_preprocess_achiever_achievements(&$vars) {
   }
 
   $vars['rendered_achievements'] = $rendered_achievements;
+  $vars['is_current_user'] = ($account->uid === $user->uid);
 
   // Prepare the attributes.
   $vars['attributes'] = array(
