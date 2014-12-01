@@ -21,7 +21,7 @@
 
     <div class="achiever-notifier-achievements">
       <?php foreach ($achievements as $achievement): ?>
-        <article class="achiever-notifier-achievement <?php print achiever_css_identifier($achievement->getKey()); ?>">
+        <article class="achiever-notifier-achievement <?php print achiever_css_identifier($achievement->getKey()); ?> achiever-unlocked">
           <h1 class="achiever-notifier-achievement-title"><?php print $achievement->getTitle(); ?></h1>
           <p class="achiever-notifier-achievement-description"><?php print $achievement->getDescription(); ?></p>
         </article>
