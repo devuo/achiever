@@ -83,7 +83,7 @@ function template_preprocess_achiever_achievement_group(&$vars) {
   $vars['total'] = 0;
 
   foreach ($achievements as $sub_achievement) {
-    if ($sub_achievement->isUnlocked()) {
+    if ($sub_achievement->isUnlocked($account)) {
       $vars['unlocked']++;
     }
 
